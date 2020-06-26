@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>FindMyEvent - The Simple Way to Organize and Find Events</title>
+    <meta content="" name="descriptison">
+    <meta content="" name="keywords">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+    <link href="assets/css/popup_view.css" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link href="assets/imgs/fme-favicon.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: Anyar - v2.1.0
+    * Template URL: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+
+    <!-- ======= Header ======= --><header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+
+        <h1 class="logo mr-auto"><a href="index.html#header" class="scrollto"><img src="assets/imgs/fme-logo.png"></a></h1>
+
+        <nav class="nav-menu d-none d-lg-block">
+            <ul>
+                <li class="active"><a href="index.html#header">Home</a></li>
+                <li><a href="index.html#get-started">How To</a></li>
+                <li><a href="index.html#sign-up">Subscribe</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="find-event.html" style="border-style: solid; border-color: #f6b024; padding-left: 10px; padding-right: 10px; border-radius: 7px">Find Event</a></li>
+                <li><a href="create-event.html" style="border-style: solid; border-color: #f6b024; padding-left: 10px; padding-right: 10px; border-radius: 7px">Create Event</a></li>
+            </ul>
+        </nav><!-- .nav-menu -->
+
+    </div>
+</header><!-- End Header -->
+
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= --><section id="breadcrumbs" class="breadcrumbs" style="">
+        <div class="container">
+
+            <ol>
+                <li>Event Listing</li>
+            </ol>
+            <h2>Find an Event in Your Community</h2>
+
+        </div>
+    </section><!-- End Breadcrumbs -->
+        <div class="row">
+            <div id="map" style="width: 100%;height: 500px;justify-items: center; text-align: center; margin-left: 50px;margin-right: 50px">
+                <script src="https://unpkg.com/es6-promise@4.2.4/dist/es6-promise.auto.min.js"></script>
+                <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br>
+        <br>
+        <div class="form1" style="margin-left: 5%; margin-top: -50px;">
+            <a>Required fields are indicated <a style="color: red">*</a></a><br/><br/><br/>
+            <a><a style="color: red">*</a>Event Type: </a><br/><br/>
+            <form action="">
+                <input type="checkbox" id="option1" value="Volunteer" onclick="toggleEvent('Volunteer')">
+                <label for="option1"> Volunteer</label><br>
+                <input type="checkbox" id="option2" value="Protest" onclick="toggleEvent('Protest')">
+                <label for="option2"> Protest</label><br>
+                <input type="checkbox" id="option3" value="Food Drive" onclick="toggleEvent('Food Drive')">
+                <label for="option3"> Food Drive</label><br>
+                <input type="checkbox" id="option4" value="Blood Drive" onclick="toggleEvent('Blood Drive')">
+                <label for="option4"> Blood Drive</label><br>
+                <input type="checkbox" id="option5" value="Clothing Drive" onclick="toggleEvent('Clothing Drive')">
+                <label for="option5"> Clothing Drive</label><br>
+                <input type="checkbox" id="option6" value="Other" onclick="toggleEvent('Other')">
+                <label for="option6"> Other</label><br>
+            </form><br/>
+<!--
+            <a><a style="color: red">*</a>Location: </a><br/><input type="text" id="userInput1" name="location"><br/><br/>
+-->
+            <input type="submit" value="Search Events" onclick="setMapOptions()">
+        </div>
+        <br/>
+        <br/>
+
+
+        <style>
+            .row::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+            @media only screen and (min-width: 600px) {
+                /* For tablets: */
+                .col-s-1 {width: 8.33%;}
+                .col-s-2 {width: 16.66%;}
+                .col-s-3 {width: 1000px;}
+                .col-s-4 {width: 33.33%;}
+                .col-s-5 {width: 41.66%;}
+                .col-s-6 {width: 50%;}
+                .col-s-7 {width: 58.33%;}
+                .col-s-8 {width: 66.66%;}
+                .col-s-9 {width: 75%;}
+                .col-s-10 {width: 83.33%;}
+                .col-s-11 {width: 91.66%;}
+                .col-s-12 {width: 100%;}
+            }
+            @media only screen and (min-width: 768px) {
+                /* For desktop: */
+                .col-1 {width: 8.33%;}
+                .col-2 {width: 16.66%;}
+                .col-3 {width: 1000px;}
+                .col-4 {width: 33.33%;}
+                .col-5 {width: 41.66%;}
+                .col-6 {width: 50%;}
+                .col-7 {width: 58.33%;}
+                .col-8 {width: 66.66%;}
+                .col-9 {width: 75%;}
+                .col-10 {width: 83.33%;}
+                .col-11 {width: 91.66%;}
+                .col-12 {width: 100%;}
+            }
+            #marker {
+                background-image: url("pin.png");
+                background-size: cover;
+                width: 39px;
+                height: 39px;
+                border-radius: 100%;
+
+            }
+
+            .mapboxgl-popup {
+                width: 200%;
+                height: 200%;
+                font: 16px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
+        </style>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
+
+        <style>
+            #marker {
+                background-image: url("pin.png");
+                background-size: cover;
+                width: 39px;
+                height: 39px;
+                border-radius: 100%;
+
+            }
+
+            .mapboxgl-popup {
+                width: 200%;
+                height: 200%;
+                font: 16px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
+        </style>
+
+
+
+        <br/>
+        <br/>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoibmF5YWsxMzI5IiwiYSI6ImNrYmkxZGZ4eTA3OWYycnBkY3Q0czNhNGcifQ.gptv7vDeenxsCwBZ3-qXbw';
+
+            var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/nayak1329/ckbkci8ei02ei1ijzqesxvof5',
+                center: [-89.3985, 40.6331],
+                zoom: 2.8
+            });
+            //createEventObject(true);
+            /*readTextFile(["Volunteer"]);*/
+
+            function readTextFile(eventTypes) {
+                location.href = "#breadcrumbs";
+                var rawFile = new XMLHttpRequest();
+                rawFile.open("GET", "./events.txt");
+                rawFile.onreadystatechange = function () {
+                    if(rawFile.readyState === 4 && (rawFile.status === 200 || rawFile.status === 0)){
+                        // var allText = rawFile.responseText;
+                        // alert(allText)
+                        eventsfilecontent = rawFile.responseText;
+                        createEventMarkers(eventsfilecontent, eventTypes)
+                    }
+                }
+                rawFile.send()
+
+            }
+            function createEventMarkers(text, eventTypes) {
+                var eventsInfo = []
+                while (text.length > 0) {
+                    var eventInfo = text.substring(0, text.indexOf("\n"));
+                    eventsInfo.push(eventInfo);
+                    text = text.substring(text.indexOf("\n")+1);
+                }
+
+                for(var i = 0; i < eventsInfo.length; i++){
+                    var data = eventsInfo[i];
+                    var typesubstring = data.substring(data.indexOf("EventType"), data.indexOf("EventName"));
+                    var type = typesubstring.substring(11, typesubstring.indexOf("|"));
+                    var locsubstring = data.substring(data.indexOf("Location"), data.indexOf("Desc"));
+                    var loc = locsubstring.substring(10, locsubstring.indexOf("|"));
+
+                    if (eventTypes.includes(type)){
+                        addMarker(loc, data);
+                    }
+
+                    // alert(loc)
+                }
+            }
+            /*---------------------------------------*/
+            var eTypes = [];
+            function toggleEvent(userInput) {
+                /*if (eTypes.length>1){
+                    for (i = 0; i < eTypes.length; i++) {
+                        if (eTypes[i] == userInput) {
+                            eTypes.splice(i, 1)
+                        }
+                        else if (i==eTypes.length-1){
+                            eTypes.push(userInput);
+                        }
+                    }
+                }
+                else{
+                    eTypes.push(userInput)
+                }*/
+                var x = false;
+                for (i = 0; i < eTypes.length; i++) {
+                    if (eTypes[i] == userInput) {
+                        eTypes.splice(i, 1)
+                        x=true;
+                    }
+                }
+                if (x==false){
+                    eTypes.push(userInput);
+                }
+
+                /*alert(eTypes)*/
+                /*alert(eTypes[0])
+                alert(eTypes[1])
+                alert(eTypes[2])
+                alert(eTypes[3])*/
+            }
+
+
+                function setMapOptions() {
+                    readTextFile(eTypes)
+                    map.flyTo({
+                        center: feature.center,
+                        zoom: 14,
+                        bearing: 0,
+                        speed: .7,
+                        curve: 1.5,
+                        essential: true
+                    })
+                }
+
+            /*---------------------------------------*/
+            function addMarker(location, popupInfo){
+                l = location;
+                mapboxClient.geocoding
+                    .forwardGeocode({
+                        query: l,
+                        autocomplete: false,
+                        limit: 10
+                    })
+                    .send()
+                    .then(function (response) {
+                        if (
+                            response &&
+                            response.body &&
+                            response.body.features &&
+                            response.body.features.length
+                        ) {
+                            var feature = response.body.features[0];
+
+                            // Creates DOM element for the marker
+                            function createDOM() {
+                                var el = document.createElement('div');
+                                el.id = 'marker';
+                                return el;
+                            }
+
+                            function createPopUp() {
+                                // alert(eventsInfo)
+                                // var textDisp = "Event Name: " + eventName + "\n | Event Type: " + eventType + "\n | Organization: " + orgName + "\n | Location: " + loc + "\n | Details: " + desc + "\n | Contact: " + contactInfo + "\n | Website URL: " + webLink + "\n | Attendees Needed: " + attendees
+                                var popup = new mapboxgl.Popup({offset: 25}).setText(popupInfo);
+                                return popup;
+                            }
+
+                            new mapboxgl.Marker(createDOM())
+                                .setLngLat(feature.center)
+                                .setPopup(createPopUp())
+                                /* .setPopup(createPopUp(prompt("Insert information about location here: "))) // sets a popup on this marker*/
+                                .addTo(map);
+                        }
+                    })
+            }
+        </script>
+
+    </main><!-- End #main -->
+
+<!-- ======= Footer ======= --><footer id="footer">
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>FindMyEvent</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/ -->
+            Developed by Abhi Nayak, Jay Gandhi, Skyler Gao<br>
+            S/O <a href="https://bootstrapmade.com/" style="color: white;">BootstrapMade</a><br><br>
+        </div>
+    </div>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+<script src="assets/vendor/venobox/venobox.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/event2.js"></script>
+
+</body>
+
+</html>
